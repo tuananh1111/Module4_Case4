@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+</head>
+<body>
+<h3><a th:href="@{/logout}">Đăng xuất</a></h3>
+<div id="container">
+    </div>
+    <form th:action="@{/create-user}" method="post" th:object="${user}">
+        <table>
+            <tbody>
+            <tr>
+                <td>fullName:</td>
+                <td><input th:field="*{fullName}" /></td>
+                <td th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Name Error</td>
+            </tr>
+            <tr>
+                <td>SDT:</td>
+                <td><input th:field="*{phone}" /></td>
+                <td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td><input th:field="*{address}" /></td>
+                <td th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Name Error</td>
+            </tr>
+            <tr>
+                <td>age:</td>
+                <td><input type="number" th:field="*{age}" /></td>
+                <td th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input th:field="*{email}" /></td>
+                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+            </tr>
+            <tr>
+                <td>UserName:</td>
+                <td><input th:field="*{userName}" /></td>
+                <td th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">Name Error</td>
+            </tr>
+            <tr>
+                <td>passWord:</td>
+                <td><input type="password" th:field="*{passWord}" /></td>
+                <td th:if="${#fields.hasErrors('passWord')}" th:errors="*{passWord}">Name Error</td>
+            </tr>
+            <tr th:if="${user.roles.size() >= 2}">
+                <td>chức năng:</td>
+                <td><input type="password" th:field="*{roles}" /></td>
+<!--                <td th:if="${#fields.hasErrors('passWord')}" th:errors="*{passWord}">Name Error</td>-->
+            </tr>
+            <tr>
+                <td><input type="submit" value="create" /></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <a th:href="@{/book/list}">List</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#newUserForm').submit(function(event) { // là funtion được gọi khi submit from có id là newSmartphoneForm
+                var fullName = $('#fullName').val();
+                var phone = $('#phone').val();
+                var address = $('#address').val();// thực hiện lấy dữ liệu từ các input tương ứng
+                var age = parseInt($('#age').val());
+                var email = $('#email').val();
+                var userName = $('#userName').val();
+                var passWord = $('#passWord').val();
+
+
+                var json = {
+                        "fullName":fullName,
+                        "phone": phone,
+                        "address":address,
+                        "age": age,
+                        "email":email,
+                        "userName": userName,
+                        "passWord":passWord
+                };// gán các biến vào các trường tương ứng của đối tượng json.
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type : "POST", // method
+                    data: JSON.stringify(json),
+                    url: "/createNewUser", //link này ở RequestMapping
+                    success: function(user) { // reponse này ở requestBody
+                        // var respContent = "";
+                        // respContent += "<span class='success'>Book was created: [";
+                        // respContent += book.category.name + " : ";
+                        // respContent += book.name + " : " ;
+                        // respContent += book.author + "]</span>"
+                        // $("#BookFromResponse").html(respContent);
+                    },  error: function(){
+                        console.log(this.error);
+                    }
+                });
+                console.log(json)
+                event.preventDefault();
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="container">
+    <h1>Create new User</h1>
+    <div>
+        <p>Here you can create new Book:</p>
+        <div id="userFormReponse"></div>
+    </div>
+    <form id="newUserForm" th:object="${user}">
+        <table>
+            <tbody>
+            <tr>
+                <td>fullName:</td>
+                <td><input th:field="*{fullName}" /></td>
+            </tr>
+            <tr>
+                <td>SDT:</td>
+                <td><input th:field="*{phone}" /></td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td><input th:field="*{address}" /></td>
+            </tr>
+            <tr>
+                <td>age:</td>
+                <td><input type="number" th:field="*{age}" /></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input th:field="*{email}" /></td>
+            </tr>
+            <tr>
+                <td>UserName:</td>
+                <td><input th:field="*{userName}" /></td>
+            </tr>
+            <tr>
+                <td>passWord:</td>
+                <td><input type="password" th:field="*{passWord}" /></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="create" /></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <a th:href="@{/book/list}">List</a>
+</div>
+</body>
+</html>
