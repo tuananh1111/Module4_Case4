@@ -39,4 +39,10 @@ public class HotelServiceImpl implements IHotelService {
     public Page<Hotel> findAllByStatusIsFalse(Pageable pageable) {
         return hotelRepository.findAllByStatusIsFalse(pageable);
     }
+
+    @Override
+    public Hotel findAllById(Long id) {
+        return hotelRepository.findAllById(id);
+    }
+
 }

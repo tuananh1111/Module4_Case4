@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 @Repository
 public interface IHotelRepository extends JpaRepository<Hotel, Long> {
     Page<Hotel> findAllByStatusIsFalse(Pageable pageable);
+    Hotel findAllById(Long id);
     @Transactional
     @Modifying
     @Query(value = "UPDATE hotel h set status =1 where h.id = :id", nativeQuery = true)

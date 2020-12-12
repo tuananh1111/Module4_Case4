@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3><a th:href="@{/user/create-room/__${id_details}__}">tạo room</a></h3>
+<h3><a th:href="@{/home}">Trang chủ</a></h3>
+
+    <table class="table table-active" border="1px">
+        <tr>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Hotel</th>
+            <th>Type</th>
+<!--            <th>User Host</th>-->
+            <th>Action</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.name}"></td>
+            <td><img th:src="@{'http://localhost:8080/' + ${room.image}}" style="height: 150px;width: 150px"></td>
+            <td th:text="${room.price}"></td>
+            <td th:text="${room.description}"></td>
+            <td th:text="${room.hotel.name}"></td>
+            <td th:text="${room.typeRoom.name}"></td>
+<!--            <th:block th:if="${userCurrent.roles.size() >= 2}">-->
+<!--                <td>-->
+<!--                    <a th:href="@{/admin/edit-hotel/__${hotel.id}__}" class="btn btn-primary">Edit</a>-->
+<!--                    <a th:href="@{/admin/delete-hotel/__${hotel.id}__}" class="btn btn-danger">Delete</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <a th:href="@{/admin/delete-hotel/__${hotel.id}__}" class="btn btn-primary">Delele</a>-->
+<!--                </td></th:block>-->
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,11 +1,12 @@
 package com.casestudy.case4.controller;
 
-import com.casestudy.case4.model.Province;
 import com.casestudy.case4.model.Role;
 import com.casestudy.case4.model.User;
+import com.casestudy.case4.model.UserPrinciple;
 import com.casestudy.case4.service.role.IRoleService;
 import com.casestudy.case4.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,34 +27,37 @@ public class AdminController {
     private IRoleService iRoleService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private User getPrincipal(){
+        User userCurrent = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrinciple userPrinciple = (UserPrinciple) principal;
+         userCurrent = iUserService.findByUserName(userPrinciple.getUsername());
+         return userCurrent;
+    }
 
-    @ModelAttribute("roles")
+    @ModelAttribute("listRole")
     public Iterable<Role> listRole() {
         return iRoleService.findAll();
     }
 
     @GetMapping("/list-user")
     public ModelAndView listUser(){
+
         ModelAndView modelAndView= new ModelAndView("admin/listUser");
         Iterable<User> users= iUserService.findAll();
         modelAndView.addObject("users", users);
+        modelAndView.addObject("userCurrent", getPrincipal());
         return modelAndView;
     }
-    @GetMapping("/edit-user/{id}")
-    public ModelAndView showEditForm(@PathVariable Long id){
-        Optional<User> user= iUserService.findById(id);
-        ModelAndView modelAndView= new ModelAndView("user/edit");
-        modelAndView.addObject("user", user.get());
-        return modelAndView;
-    }
-    @PostMapping("/edit-user")
-    public ModelAndView updateUser(@ModelAttribute User user){
-        iUserService.save(user);
-        ModelAndView modelAndView= new ModelAndView("user/edit");
-        modelAndView.addObject("user", new User());
-        modelAndView.addObject("message", "Updated USER successful!!!");
-        return modelAndView;
-    }
+
+//    @PostMapping("/edit-user")
+//    public ModelAndView updateUser(@ModelAttribute User user){
+//        iUserService.save(user);
+//        ModelAndView modelAndView= new ModelAndView("user/edit");
+//        modelAndView.addObject("user", new User());
+//        modelAndView.addObject("message", "Updated USER successful!!!");
+//        return modelAndView;
+//    }
 
     @GetMapping("/create-user")
     public ModelAndView showListForm() {

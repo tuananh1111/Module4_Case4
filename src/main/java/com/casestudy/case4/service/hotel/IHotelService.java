@@ -8,4 +8,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface IHotelService extends GeneralService<Hotel> {
     Page<Hotel> findAllByStatusIsFalse(Pageable pageable);
+    Hotel findAllById(Long id);
 }

@@ -46,11 +46,11 @@
                 <td><input type="password" th:field="*{passWord}" /></td>
                 <td th:if="${#fields.hasErrors('passWord')}" th:errors="*{passWord}">Name Error</td>
             </tr>
-            <tr th:if="${user.roles.size() >= 2}">
-                <td>chức năng:</td>
-                <td><input type="password" th:field="*{roles}" /></td>
+<!--            <tr th:if="${user.roles.size() >= 2}">-->
+<!--                <td>chức năng:</td>-->
+<!--                <td><input type="password" th:field="*{roles}" /></td>-->
 <!--                <td th:if="${#fields.hasErrors('passWord')}" th:errors="*{passWord}">Name Error</td>-->
-            </tr>
+<!--            </tr>-->
             <tr>
                 <td><input type="submit" value="create" /></td>
                 <td></td>
@@ -58,7 +58,7 @@
             </tbody>
         </table>
     </form>
-    <a th:href="@{/book/list}">List</a>
+    <a th:href="@{/home}">List</a>
 </div>
 
 </body>

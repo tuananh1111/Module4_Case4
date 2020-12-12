@@ -6,5 +6,9 @@
 </head>
 <body>
 <h2>đây lad trag dành cho user sau khi đăng nhập</h2>
+<h2><a th:href="@{/user/list-hotel}">xem list hotel</a></h2>
+<h2><a th:href="@{/user/create-hotel}">Tạo hotel</a></h2>
+<h2><a th:href="@{/create-user}">Đăng ký</a></h2>
+<h2><a th:href="@{/user/edit-user/__${userCurrent.id}__}" class="btn btn-primary">Edit</a></h2>
 </body>
 </html>

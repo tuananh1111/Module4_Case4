@@ -30,7 +30,7 @@ public class User {
     private String userName;
     @NotBlank(message = "Vui lòng nhập mật khẩu")
     private String passWord;
-    @Column(columnDefinition="boolean DEFAULT TRUE")
+    @Column(columnDefinition="boolean DEFAULT false")
     private boolean status;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;

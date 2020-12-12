@@ -17,7 +17,7 @@
 <div th:if="${message}" style="color: green">
     <p th:text="${message}"></p>
 </div>
-<form th:action="@{/user/edit-user}" th:object="${user}" method="post">
+<form th:action="@{/edit-user}" th:object="${user}" method="post">
     <input th:type="hidden" name="id" th:field="*{id}">
     <table>
         <tr>
@@ -49,7 +49,17 @@
             <td><input type="hidden" th:field="*{passWord}">
                 <input type="password" name="password">
             </td>
-
+        </tr>
+        <tr th:if="${isAdmin}">
+            <td>Role:</td>
+            <td>
+                <div th:each="role : ${listRole}">
+                    <input type="checkbox" name="category"
+                           th:value="${role.id}"
+                           th:field="*{roles}"/>
+                    <span th:text="${role.name}"></span>
+                </div>
+            </td>
         </tr>
         <tr>
             <td><input type="hidden" th:field = "*{roles}"></td>
