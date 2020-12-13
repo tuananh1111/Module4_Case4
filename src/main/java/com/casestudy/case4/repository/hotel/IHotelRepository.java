@@ -2,6 +2,7 @@ package com.casestudy.case4.repository.hotel;
 
 //import com.example.demo.model.Hotel;
 import com.casestudy.case4.model.Hotel;
+import com.casestudy.case4.model.Room;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,9 @@ public interface IHotelRepository extends JpaRepository<Hotel, Long> {
     @Modifying
     @Query(value = "UPDATE hotel h set status =1 where h.id = :id", nativeQuery = true)
     void remove(@Param("id") Long id);
+
+    @Query(value = "select * from hotel r where r.province_id = :id", nativeQuery = true)
+    Page<Hotel> findAllByProvince(@Param("id") Long id, Pageable pageable);
+    @Query(value = "select * from hotel h where h.user_id = :id", nativeQuery = true)
+    Page<Hotel> findAllByUser(@Param("id") Long id, Pageable pageable);
 }

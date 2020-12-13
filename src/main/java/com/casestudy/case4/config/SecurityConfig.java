@@ -40,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 //        .antMatchers("/host").access("hasRole('ROLE_HOST') or hasRole('ROLE_ADMIN')")
 //                .and().formLogin().successHandler(customSuccessHandler)
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and().exceptionHandling().accessDeniedPage("/accessDenied");
         http.authorizeRequests().and().formLogin()//
                 // Submit URL của trang login
@@ -49,12 +48,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login?error=true")//
                 .usernameParameter("username")//
                 .passwordParameter("password")
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 // Cấu hình cho Logout Page.
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
         // Cấu hình Remember Me.
         http.authorizeRequests().and() //
                 .rememberMe().tokenRepository(this.persistentTokenRepository()) //
                 .tokenValiditySeconds(1 * 24 * 60 * 60); // 24h
+
+        http.csrf().disable();
+        http.cors();
     }
 
     @Bean

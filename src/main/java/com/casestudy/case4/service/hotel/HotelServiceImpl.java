@@ -45,4 +45,14 @@ public class HotelServiceImpl implements IHotelService {
         return hotelRepository.findAllById(id);
     }
 
+    @Override
+    public Page<Hotel> findAllByProvince(Long id, Pageable pageable) {
+        return hotelRepository.findAllByProvince(id,pageable);
+    }
+
+    @Override
+    public Page<Hotel> findAllByUser(Long id, Pageable pageable) {
+        return hotelRepository.findAllByUser(id, pageable);
+    }
+
 }

@@ -42,6 +42,17 @@ public class UserController {
         return iRoleService.findAll();
     }
 
+    @ModelAttribute("isAdmin")
+    public boolean checkAdmin(){
+        boolean isAdmin = false;
+        for (Role role: getPrincipal().getRoles()){
+            if (role.getName().equals("ROLE_ADMIN")){
+                isAdmin = true;
+            }
+        }
+        return isAdmin;
+    }
+
 
     public User getPrincipal(){
         User userCurrent = null;
@@ -126,12 +137,13 @@ public class UserController {
         modelAndView.addObject("list", list);
         return new RedirectView("/admin/list-user/");
     }
-
-
-    @RequestMapping(value = "/user/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Iterable<User> allBook() {
-        return iUserService.findAll();
+    @GetMapping("/admin/enable-user/{id}")
+    public RedirectView enableUser(@PathVariable Long id ,@PageableDefault(14) Pageable pageable){
+        iUserService.enable(id);
+        Page<User> list = iUserService.findAllUserPage(pageable);
+        ModelAndView modelAndView= new ModelAndView("admin/listUser");
+        modelAndView.addObject("list", list);
+        return new RedirectView("/admin/list-user/");
     }
 
 }

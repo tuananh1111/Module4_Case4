@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Booking-Hotel-"Lieu"</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -12,13 +12,11 @@
         .navbar {
             margin-bottom: 20px;
             border-radius: 0;
-            /*position: fixed;*/
-            /*top: 0;*/
         }
         .panel panel-primary{
             height: 400px;
         }
-
+        
 
         .container-fluid {
             height: 75px;
@@ -89,8 +87,11 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
+                <!--                <li class="active"><a href="#">Home</a></li>-->
                 <li><a href="#">.....</a></li>
                 <li><a href="#">.....</a></li>
+                <!--                <li><a href="#">Stores</a></li>-->
+                <!--                <li><a href="#">Contact</a></li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -100,14 +101,13 @@
                     </form>
                 </li>
                 <li>
-                    <a class="glyphicon glyphicon-user" type="button" data-toggle="dropdown">Đăng nhập/Đăng kí
+                    <a class="glyphicon glyphicon-user" type="button" data-toggle="dropdown">DANG NHAP
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                         <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/login}" class="glyphicon glyphicon-user"> LOGIN</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/create-user}" class="glyphicon glyphicon-user">SignIn</a></li>
-                        <!--                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/edit"  class="glyphicon glyphicon-pencil">   EDIT</a></li>-->
+<!--                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/edit"  class="glyphicon glyphicon-pencil">   EDIT</a></li>-->
                         <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/logout}" class="glyphicon glyphicon-log-in">LOGOUT</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout" class="glyphicon glyphicon-log-in">  LOGOUT</a></li>
                     </ul>
                 </li>
                 <!--                <li><a href="/login"><span class="glyphicon glyphicon-user"></span> LOGIN</a></li>-->
@@ -193,27 +193,21 @@
 
     </div>
 
-    <div class="container">
-        <div class="row">
-            <th:block th:each="hotel : ${list}">
-                <div class="col-sm-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><span th:text="${hotel.name}"></span></div>
-                        <div class="panel-body"><a th:href="@{/user/details-hotel/__${hotel.id}__}"><img th:src="@{'http://localhost:8080/' + ${hotel.image}}" class="img-responsive"
-                                                                                                         alt="Image"></a></div>
-                        <div class="panel-footer"><span th:text="${hotel.description}"></span></div>
-                    </div>
-                </div>
-            </th:block>
+<div class="container">
+    <div class="row">
+        <th:block th:each="hotel : ${list}">
+        <div class="col-sm-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><span th:text="${hotel.name}"></span></div>
+                <div class="panel-body"><a th:href="@{/user/details-hotel/__${hotel.id}__}"><img th:src="@{'http://localhost:8080/' + ${hotel.image}}" class="img-responsive"
+                                             alt="Image"></a></div>
+                <div class="panel-footer"><span th:text="${hotel.description}"></span></div>
+            </div>
         </div>
-        <div class="pagination">
-            <a th:href="@{'/'(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a>
-                <span th:text="${list.number + 1}"></span>/<span th:text="${list.totalPages}"></span>
-                <a th:href="@{'/'(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
-        </div>
-
+        </th:block>
     </div>
-</div>
 
+</div>
+</div>
 </body>
 </html>

@@ -111,7 +111,7 @@
                                                    th:href="@{/user/edit-user/__${userCurrent.id}__}"
                                                    class="glyphicon glyphicon-log-in">Tài Khoản</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/user/list-hotelUser/__${userCurrent.id}__}"
+                        <li role="presentation"><a role="menuitem" tabindex="-1" th:href="@{/user/create-hotel}"
                                                    class="glyphicon glyphicon-user">HOST</a></li>
 
                     </ul>
@@ -121,84 +121,9 @@
     </div>
 </nav>
 
-<!--<div class="jumbotron">-->
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img th:src="@{../hanoi.png}" alt="New York" width="500" height="500">
-            <div class="carousel-caption">
-                <h3>New York</h3>
-                <p>Thank you, New Yorl - A night we won't forget.</p>
-            </div>
-
-        </div>
-        <div class="item">
-            <img th:src="@{../bannerdalat.jpg}" alt="Chicago" width="500" height="500">
-            <div class="carousel-caption">
-                <h3>Chicago</h3>
-                <p>Thank you, Chicago - A night we won't forget.</p>
-            </div>
-        </div>
-        <div class="item">
-            <img th:src="@{../static/viewbien.jpg}" alt="Chicago" width="500" height="500">
-            <div class="carousel-caption">
-                <h3>Chicago</h3>
-                <p>Thank you, Chicago - A night we won't forget.</p>
-            </div>
-        </div>
-    </div>
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
-<!--</div>-->
 <div class="row">
     <article class="col-sm-9">
         <div class="container">
-            <div class="container">
-                <div class="row">
-                    <div><span><strong>Địa điểm nổi bật</strong></span></div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading"><span><strong>Đà Nẵng</strong></span></div>
-                            <div class="panel-body"><a th:href="@{/user/list-hotelProvince/__${province_dn}__}"><img th:src="@{/hanoi.png}" class="img-responsive"
-                                                         style="width:100%" alt="Image"></a></div>
-                            <div class="panel-footer">Nơi tình yêu bắt đầu</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading"><span><strong>Hà Nội</strong></span></div>
-                            <div class="panel-body"><a th:href="@{/user/list-hotelProvince/__${province_hn}__}"><img th:src="@{../hanoi.png}" class="img-responsive"
-                                                         style="width:100%" alt="Image"></a></div>
-                            <div class="panel-footer">NƠi tụ họp của dân tổ</div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 col-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading"><span><strong>Hà Tĩnh</strong></span></div>
-                            <div class="panel-body"><a th:href="@{/user/list-hotelProvince/__${province_ht}__}"><img th:src="@{/hoian.png}" class="img-responsive"
-                                                         style="width:100%" alt="Image"></a></div>
-                            <div class="panel-footer">Hội tụ tinh hoa ẩm thực</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="container">
                 <div class="row">
                     <th:block th:each="hotel : ${list}">
@@ -214,9 +139,9 @@
                     </th:block>
                 </div>
                 <div class="pagination">
-                    <a th:href="@{'/user'(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a>
+                    <a th:href="@{'/user/list-hotelProvince/__${province_id}__'(page=${list.number - 1})}" th:if="${list.hasPrevious()}">Previous</a>
                     <span th:text="${list.number + 1}"></span>/<span th:text="${list.totalPages}"></span>
-                    <a th:href="@{'/user'(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
+                    <a th:href="@{'/user/list-hotelProvince/__${province_id}__'(page=${list.number + 1})}" th:if="${list.hasNext()}">Next</a>
                 </div>
 
             </div>

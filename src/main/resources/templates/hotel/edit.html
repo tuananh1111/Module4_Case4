@@ -12,7 +12,12 @@
 <body>
 <h1>Edit Hotel</h1>
 <p>
-    <a th:href="@{admin/list-hotel}">Back to the list</a>
+    <th:block th:if="${isAdmin}">
+    <a class="btn btn-success" th:href="@{/admin}">Back to home</a>
+    </th:block>
+    <th:block th:if="${!isAdmin}">
+        <a class="btn btn-success" th:href="@{/user}">Back to home</a>
+    </th:block>
 </p>
 <div th:if="${message}" style="color: green">
     <p th:text="${message}"></p>

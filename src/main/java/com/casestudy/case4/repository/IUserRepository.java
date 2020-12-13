@@ -24,4 +24,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query(value = "UPDATE user h set status =1 where h.id = :id", nativeQuery = true)
     void remove(@Param("id") Long id);
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE user h set status =0 where h.id = :id", nativeQuery = true)
+    void enable(@Param("id") Long id);
 }

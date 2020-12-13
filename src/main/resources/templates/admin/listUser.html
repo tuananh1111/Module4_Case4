@@ -53,6 +53,9 @@
             <td>
                 <a th:href="@{/admin/delete-user/__${user.id}__}" class="btn btn-danger">Disable</a>
             </td>
+            <td>
+                <a th:href="@{/admin/enable-user/__${user.id}__}" class="btn btn-danger">Able</a>
+            </td>
         </tr>
     </table>
     <a href="/create-user" class="btn btn-success">Add User</a>

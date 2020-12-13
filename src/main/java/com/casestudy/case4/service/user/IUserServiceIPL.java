@@ -65,4 +65,9 @@ public class IUserServiceIPL implements IUserService {
     public Page<User> findAllUserPage(Pageable pageable) {
         return iUserRepository.findAll(pageable);
     }
+
+    @Override
+    public void enable(Long id) {
+        iUserRepository.enable(id);
+    }
 }

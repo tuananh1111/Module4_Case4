@@ -11,4 +11,5 @@ public interface IUserService extends GeneralService<User>, UserDetailsService {
     Page<User> findAllByStatusIsFalse(Pageable pageable);
     Page<User> findAllByStatusIsTrue(Pageable pageable);
     Page<User> findAllUserPage(Pageable pageable);
+    void enable(Long id);
 }

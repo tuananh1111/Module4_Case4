@@ -1,6 +1,7 @@
 package com.casestudy.case4.controller;
 
 import com.casestudy.case4.model.*;
+import com.casestudy.case4.service.comment.ICommentService;
 import com.casestudy.case4.service.hotel.IHotelService;
 import com.casestudy.case4.service.room.IRoomService;
 import com.casestudy.case4.service.type_room.ITypeRoomService;
@@ -36,13 +37,28 @@ public class RoomController {
     private ITypeRoomService iTypeRoomService;
     @Autowired
     private IHotelService iHotelService;
+    @Autowired
+    private ICommentService iCommentService;
 
     @ModelAttribute("typeRooms")
     public Iterable<TypeRoom> findAllTypeRoom(){
         return iTypeRoomService.findAll();
     }
 
-
+    @ModelAttribute("isAdmin")
+    public boolean checkAdmin(){
+        boolean isAdmin = false;
+        for (Role role: getPrincipal().getRoles()){
+            if (role.getName().equals("ROLE_ADMIN")){
+                isAdmin = true;
+            }
+        }
+        return isAdmin;
+    }
+    @ModelAttribute("allComment")
+    public Iterable<Comment> comments(){
+        return iCommentService.findAll();
+    }
 
     @ModelAttribute("userCurrent")
     public User getPrincipal(){
@@ -60,15 +76,18 @@ public class RoomController {
         Page<Room> rooms=iRoomService.findAllByHotelId(id ,pageable);
         ModelAndView modelAndView= new ModelAndView("room/detailsRoomHotel");
         modelAndView.addObject("rooms",rooms);
+        modelAndView.addObject("comment",new Comment());
         modelAndView.addObject("id_details", id);
         return modelAndView;
     }
     @GetMapping("/user/details-hotel/{id}")
     public ModelAndView detailHotelUser(@PathVariable Long id, Pageable pageable){
         Page<Room> rooms=iRoomService.findAllByHotelId(id ,pageable);
+        Hotel hotel= iHotelService.findAllById(id);
         ModelAndView modelAndView= new ModelAndView("room/detailsRoomHotel");
         modelAndView.addObject("rooms",rooms);
-        modelAndView.addObject("id_details", id);
+        modelAndView.addObject("comment",new Comment());
+        modelAndView.addObject("hotelCurrent",hotel);
         return modelAndView;
     }
 
@@ -103,7 +122,7 @@ public class RoomController {
 
         iRoomService.save(room);
         model.addAttribute("roomHotel", new RoomForm());
-        return new RedirectView("/home");
+        return new RedirectView("/user");
     }
 
 }

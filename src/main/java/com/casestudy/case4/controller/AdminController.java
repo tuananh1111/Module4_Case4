@@ -6,6 +6,8 @@ import com.casestudy.case4.model.UserPrinciple;
 import com.casestudy.case4.service.role.IRoleService;
 import com.casestudy.case4.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,17 @@ public class AdminController {
     @ModelAttribute("listRole")
     public Iterable<Role> listRole() {
         return iRoleService.findAll();
+    }
+
+    @ModelAttribute("isAdmin")
+    public boolean checkAdmin(){
+        boolean isAdmin = false;
+        for (Role role: getPrincipal().getRoles()){
+            if (role.getName().equals("ROLE_ADMIN")){
+                isAdmin = true;
+            }
+        }
+        return isAdmin;
     }
 
     @GetMapping("/list-user")
@@ -81,6 +94,22 @@ public class AdminController {
             modelAndView.addObject("user", user);
             modelAndView.addObject("message", "New user created successfully");
         }
+        return modelAndView;
+    }
+    @GetMapping("/list-userAble")
+    public ModelAndView listUserAble(Pageable pageable){
+        ModelAndView modelAndView= new ModelAndView("admin/listUser");
+        Page<User> users= iUserService.findAllByStatusIsFalse(pageable);
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("userCurrent", getPrincipal());
+        return modelAndView;
+    }
+    @GetMapping("/list-userDisable")
+    public ModelAndView listUserDisable(Pageable pageable){
+        ModelAndView modelAndView= new ModelAndView("admin/listUser");
+        Page<User> users= iUserService.findAllByStatusIsTrue(pageable);
+        modelAndView.addObject("users", users);
+        modelAndView.addObject("userCurrent", getPrincipal());
         return modelAndView;
     }
 

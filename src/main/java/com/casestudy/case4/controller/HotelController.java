@@ -3,6 +3,7 @@ package com.casestudy.case4.controller;
 import com.casestudy.case4.model.*;
 import com.casestudy.case4.service.hotel.IHotelService;
 import com.casestudy.case4.service.province.IProvinceService;
+import com.casestudy.case4.service.type_room.ITypeRoomService;
 import com.casestudy.case4.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,8 @@ public class HotelController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ITypeRoomService iTypeRoomService;
 
 //    @Value("${upload.path}")
     @Value("${upload.path}")
@@ -48,6 +51,11 @@ public class HotelController {
         return userCurrent;
     }
 
+
+    @ModelAttribute("room_type")
+    public Iterable<TypeRoom> showRoomType(){
+        return iTypeRoomService.findAll();
+    }
     @ModelAttribute("users")
     public Iterable<User> users(){
         return userService.findAll();
@@ -55,6 +63,17 @@ public class HotelController {
     @ModelAttribute("provinces")
     public Iterable<Province> provinces(){
         return provinceService.findAll();
+    }
+
+    @ModelAttribute("isAdmin")
+    public boolean checkAdmin(){
+        boolean isAdmin = false;
+        for (Role role: getPrincipal().getRoles()){
+            if (role.getName().equals("ROLE_ADMIN")){
+                isAdmin = true;
+            }
+        }
+        return isAdmin;
     }
 
     @GetMapping("/admin/list-hotel")
@@ -68,8 +87,10 @@ public class HotelController {
     @GetMapping(value = "/user/list-hotel")
     public ModelAndView hotelListUser(Pageable pageable){
         Page<Hotel> list= hotelService.findAllByStatusIsFalse(pageable);
+        Long PROVINCE_HANOI = (long) 1;
         ModelAndView modelAndView= new ModelAndView("hotel/list");
         modelAndView.addObject("list", list);
+        modelAndView.addObject("province_hn", PROVINCE_HANOI);
         modelAndView.addObject("userCurrent",getPrincipal());
         return modelAndView;
     }
@@ -95,7 +116,7 @@ public class HotelController {
         return modelAndView;
     }
     @PostMapping("/create-hotel")
-    public RedirectView saveBook(@ModelAttribute HotelForm hotelForm, Model model) {
+    public RedirectView saveHotel(@ModelAttribute HotelForm hotelForm, Model model) {
         Hotel hotel = new Hotel(hotelForm.getId(),hotelForm.getName(), hotelForm.getAddressDetails(), hotelForm.getHotline() , hotelForm.getDescription()
         , hotelForm.isStatus(), hotelForm.getProvince(), hotelForm.getUser());
         MultipartFile multipartFile = hotelForm.getCoveImage();
@@ -110,18 +131,18 @@ public class HotelController {
         hotel.setUser(userCurrent);
         hotelService.save(hotel);
         model.addAttribute("hotelForm", new HotelForm());
-        return new RedirectView("/home");
+        return new RedirectView("/user");
     }
 
-    //    public ModelAndView saveHotel(@ModelAttribute Hotel hotel){
-//        hotelService.save(hotel);
-//        ModelAndView modelAndView= new ModelAndView("hotel/create");
-//        modelAndView.addObject("hotel", new Hotel());
-//        modelAndView.addObject("message","Save Hotel Successful!!!");
-//        return modelAndView;
-//    }
     @GetMapping("/admin/edit-hotel/{id}")
     public ModelAndView showFormEdit(@PathVariable Long id){
+        Optional<Hotel> hotel=hotelService.findById(id);
+        ModelAndView modelAndView= new ModelAndView("hotel/edit");
+        modelAndView.addObject("hotel",hotel.get());
+        return modelAndView;
+    }
+    @GetMapping("/user/edit-hotel/{id}")
+    public ModelAndView showFormEditUser(@PathVariable Long id){
         Optional<Hotel> hotel=hotelService.findById(id);
         ModelAndView modelAndView= new ModelAndView("hotel/edit");
         modelAndView.addObject("hotel",hotel.get());
@@ -141,6 +162,21 @@ public class HotelController {
         hotelService.remove(id);
         ModelAndView modelAndView= new ModelAndView("hotel/list");
         modelAndView.addObject("list",hotels);
+        return modelAndView;
+    }
+    @GetMapping("/user/list-hotelProvince/{id}")
+    public ModelAndView findAllByProvince(@PathVariable Long id, Pageable pageable){
+        Page<Hotel> hotels = hotelService.findAllByProvince(id,pageable);
+        ModelAndView modelAndView = new ModelAndView("hotel/listProvince");
+        modelAndView.addObject("list",hotels);
+        return modelAndView;
+    }
+    @GetMapping("/user/list-hotelUser/{id}")
+    public ModelAndView findAllByUser(@PathVariable Long id, Pageable pageable){
+        Page<Hotel> hotels = hotelService.findAllByUser(id,pageable);
+        ModelAndView modelAndView = new ModelAndView("hotel/hotelDetails");
+        modelAndView.addObject("list",hotels);
+
         return modelAndView;
     }
 }

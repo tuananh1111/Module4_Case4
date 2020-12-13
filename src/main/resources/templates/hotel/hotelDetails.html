@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<h><a class="btn btn-success" th:href="@{/user/create-hotel}">Tạo Hotel</a></h>
+<div class="row">
+    <article class="col-sm-9">
+        <div class="container">
+            <div class="container">
+                <div class="row">
+                    <th:block th:each="hotel : ${list}">
+                        <div class="col-md-4 col-sm-6 col-12">
+                            <a class="btn btn-success" th:href="@{/user/edit-hotel/__${hotel.id}__}">chỉnh sửa</a>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading"><span th:text="${hotel.name}"></span></div>
+                                <div class="panel-body"><a th:href="@{/user/details-hotel/__${hotel.id}__}"><img
+                                        th:src="@{'http://localhost:8080/' + ${hotel.image}}" class="img-responsive"
+                                        alt="Image"></a></div>
+                                <div class="panel-footer"><span th:text="${hotel.description}"></span></div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+                <div class="pagination">
+                    <a th:href="@{'/user/list-hotelProvince/__${province_id}__'(page=${list.number - 1})}"
+                       th:if="${list.hasPrevious()}">Previous</a>
+                    <span th:text="${list.number + 1}"></span>/<span th:text="${list.totalPages}"></span>
+                    <a th:href="@{'/user/list-hotelProvince/__${province_id}__'(page=${list.number + 1})}"
+                       th:if="${list.hasNext()}">Next</a>
+                </div>
+
+            </div>
+        </div>
+    </article>
+</div>
+
+</body>
+</html>

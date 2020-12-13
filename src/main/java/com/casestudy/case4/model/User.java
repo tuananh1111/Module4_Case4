@@ -1,6 +1,7 @@
 package com.casestudy.case4.model;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
+//@Table(name = "user",  uniqueConstraints = {@UniqueConstraint(columnNames = {"user_name"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +29,8 @@ public class User {
     @Email
     private String email;
     @NotBlank(message = "bạn cần tên đăng nhập")
+//    @UniqueElements(message = "Tên đăng nhập đã tồn tại")
+//    @Column(unique = true
     private String userName;
     @NotBlank(message = "Vui lòng nhập mật khẩu")
     private String passWord;
