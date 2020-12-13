@@ -87,6 +87,7 @@ public class RoomController {
         ModelAndView modelAndView= new ModelAndView("room/detailsRoomHotel");
         modelAndView.addObject("rooms",rooms);
         modelAndView.addObject("comment",new Comment());
+        modelAndView.addObject("id_details", id);
         modelAndView.addObject("hotelCurrent",hotel);
         return modelAndView;
     }

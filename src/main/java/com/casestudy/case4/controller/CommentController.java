@@ -43,10 +43,10 @@ public class CommentController {
     @RequestMapping(value = "/create-comment", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Comment deleteSmartphone(@RequestBody Comment comment){
-//        Hotel hotel= iHotelService.findAllById(hotelCurrent);
+//        Hotel hotel= iHotelService.findAllById(1L);
 //        comment.setHotel(hotel);
-
-//        comment.setUser(getPrincipal());
+//        User user = iUserService.findByUserName("lien");
+//        comment.setUser(user);
         return iCommentService.save(comment);
     }
     @GetMapping("/list-comment")

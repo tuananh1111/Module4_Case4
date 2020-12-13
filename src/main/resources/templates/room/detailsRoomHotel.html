@@ -8,12 +8,12 @@
         $(document).ready(function() {
             $('#formComment').submit(function(event) { // là funtion được gọi khi submit from có id là newSmartphoneForm
                 var content = $('#content').val();
-                var hotel = $('#id_hotelCurrent').val();
+                var hotel = $('#hotel').val();
                 // var rate = $('#id_hotelCurrent').val();
-                var user = $('#userCurrent').val();// thực hiện lấy dữ liệu từ các input tương ứng
+                var user = $('#user').val();// thực hiện lấy dữ liệu từ các input tương ứng
                 var json = {
-                    "hotel" : hotel,
-                    "user" : user,
+                    hotel,
+                    user,
                     "content" : content
                 };// gán các biến vào các trường tương ứng của đối tượng json.
                 $.ajax({
@@ -26,8 +26,11 @@
                     url: "/create-comment", //link này ở RequestMapping
                     success: function(comment) { // reponse này ở requestBody
                         var respContent = "";
-                        respContent += "<span>comment</span>";
-                        respContent += "<textarea> </textarea>";
+                        respContent += "<span>";
+                        respContent += comment.user.fullName + "</span> ";
+
+                        respContent += "<textarea> ";
+                        respContent +=  comment.content + "</textarea>";
                         $("#allComment").html(respContent);
                     },  error: function(){
                         console.log(this.error);
@@ -120,10 +123,11 @@
             <table border="1">
                 <tr>
                     <td>
-                        <input type="hidden" id="id_hotelCurrent" name="id_hotelCurrent" th:field="${hotelCurrent}">
+<!--                        <input type="hidden" id="id_hotelCurrent" name="id_hotelCurrent" th:field="${hotelCurrent}">-->
                         <input type="hidden" id="userCurrent" name="userCurrent" th:field="${userCurrent}">
-                        <input type="hidden" name="user" th:value="${userCurrent}">
-                        <input type="hidden" name="hotelCurrent" th:value="${id_details}">
+                        <input type="hidden" id="user" name="user" th:value="${userCurrent}">
+                        <input type="hidden" id="id_hotelCurrent" name="id_hotelCurrent" th:field="${hotelCurrent}">
+                        <input type="hidden" id="hotel" name="hotelCurrent" th:value="${hotelCurrent}">
                    <textarea id="content" th:field="${comment.content}">
                    </textarea>
                     </td>
