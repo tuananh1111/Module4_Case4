@@ -1,8 +1,10 @@
 package com.casestudy.case4.controller;
 
 import com.casestudy.case4.model.*;
+import com.casestudy.case4.model.Image;
 import com.casestudy.case4.service.comment.ICommentService;
 import com.casestudy.case4.service.hotel.IHotelService;
+import com.casestudy.case4.service.image.ImageService;
 import com.casestudy.case4.service.room.IRoomService;
 import com.casestudy.case4.service.type_room.ITypeRoomService;
 import com.casestudy.case4.service.user.IUserService;
@@ -20,8 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.xml.ws.Holder;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,11 +43,18 @@ public class RoomController {
     private IHotelService iHotelService;
     @Autowired
     private ICommentService iCommentService;
+    @Autowired
+    private ImageService imageService;
 
     @ModelAttribute("typeRooms")
     public Iterable<TypeRoom> findAllTypeRoom(){
         return iTypeRoomService.findAll();
     }
+    //Tuan Anh thêm vào
+//    @ModelAttribute("images")
+//    public List<Image> findImagesByRoomId(){
+//        return imageService.findImagesByRoomId(id);
+//    }
 
     @ModelAttribute("isAdmin")
     public boolean checkAdmin(){
@@ -76,6 +87,7 @@ public class RoomController {
         Page<Room> rooms=iRoomService.findAllByHotelId(id ,pageable);
         ModelAndView modelAndView= new ModelAndView("room/detailsRoomHotel");
         modelAndView.addObject("rooms",rooms);
+
         modelAndView.addObject("comment",new Comment());
         modelAndView.addObject("id_details", id);
         return modelAndView;
@@ -89,6 +101,20 @@ public class RoomController {
         modelAndView.addObject("comment",new CommentForm());
         modelAndView.addObject("id_details", id);
         modelAndView.addObject("hotelCurrent",hotel);
+        return modelAndView;
+    }
+    // details room Tuan Anh them vao
+    @GetMapping("/user/room-details/{id}")
+    public ModelAndView detailRoom(@PathVariable Long id, Pageable pageable){
+//        Optional<Room> room=iRoomService.findById(id);
+        Room room = iRoomService.findAllById(id);
+        Page<Room> list= iRoomService.findAllByHotelId(id, pageable);
+        List<Image> imageList= imageService.findImagesByRoomId(id);
+        ModelAndView modelAndView= new ModelAndView("roomDetails");
+        modelAndView.addObject("images", imageList);
+        modelAndView.addObject("room", room);
+        modelAndView.addObject("imageAlone", room.getImage());
+        modelAndView.addObject("listRoom", list);
         return modelAndView;
     }
 

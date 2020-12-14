@@ -101,7 +101,7 @@
     </tr>
     <tr th:each="room : ${rooms}">
         <td th:text="${room.name}"></td>
-        <td><img th:src="@{'http://localhost:8080/' + ${room.image}}" style="height: 150px;width: 150px"></td>
+        <td><a th:href="@{/user/room-details/__${room.id}__}"><img th:src="@{'http://localhost:8080/' + ${room.image}}" style="height: 150px;width: 150px"></a></td>
         <td th:text="${room.price}"></td>
         <td th:text="${room.description}"></td>
         <td th:text="${room.hotel.name}"></td>
