@@ -1,9 +1,6 @@
 package com.casestudy.case4.controller;
 
-import com.casestudy.case4.model.Comment;
-import com.casestudy.case4.model.Hotel;
-import com.casestudy.case4.model.User;
-import com.casestudy.case4.model.UserPrinciple;
+import com.casestudy.case4.model.*;
 import com.casestudy.case4.service.comment.ICommentService;
 import com.casestudy.case4.service.hotel.IHotelService;
 import com.casestudy.case4.service.role.IRoleService;
@@ -42,11 +39,10 @@ public class CommentController {
 
     @RequestMapping(value = "/create-comment", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Comment deleteSmartphone(@RequestBody Comment comment){
-//        Hotel hotel= iHotelService.findAllById(1L);
-//        comment.setHotel(hotel);
-//        User user = iUserService.findByUserName("lien");
-//        comment.setUser(user);
+    public Comment deleteSmartphone(@RequestBody CommentForm commentForm){
+        Hotel hotel= iHotelService.findAllById(commentForm.getHotel_id());
+        User user = iUserService.findAllById(commentForm.getUser_id());
+        Comment comment = new Comment(commentForm.getId(), user, hotel, commentForm.getContent(), commentForm.getRate());
         return iCommentService.save(comment);
     }
     @GetMapping("/list-comment")

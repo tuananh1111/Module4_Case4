@@ -12,8 +12,8 @@
                 // var rate = $('#id_hotelCurrent').val();
                 var user = $('#user').val();// thực hiện lấy dữ liệu từ các input tương ứng
                 var json = {
-                    hotel,
-                    user,
+                    "hotel_id" : parseInt(hotel),
+                    "user_id" : parseInt(user),
                     "content" : content
                 };// gán các biến vào các trường tương ứng của đối tượng json.
                 $.ajax({
@@ -29,8 +29,8 @@
                         respContent += "<span>";
                         respContent += comment.user.fullName + "</span> ";
 
-                        respContent += "<textarea> ";
-                        respContent +=  comment.content + "</textarea>";
+                        respContent += "<span> ";
+                        respContent +=  comment.content + "</span>";
                         $("#allComment").html(respContent);
                     },  error: function(){
                         console.log(this.error);
@@ -125,9 +125,9 @@
                     <td>
 <!--                        <input type="hidden" id="id_hotelCurrent" name="id_hotelCurrent" th:field="${hotelCurrent}">-->
                         <input type="hidden" id="userCurrent" name="userCurrent" th:field="${userCurrent}">
-                        <input type="hidden" id="user" name="user" th:value="${userCurrent}">
-                        <input type="hidden" id="id_hotelCurrent" name="id_hotelCurrent" th:field="${hotelCurrent}">
-                        <input type="hidden" id="hotel" name="hotelCurrent" th:value="${hotelCurrent}">
+                        <input type="hidden" id="user" name="user" th:value="${userCurrent.id}">
+                        <input type="hidden" id="id_hotelCurrent" name="id_hotelCurrent" th:field="${hotelCurrent.id}">
+                        <input type="hidden" id="hotel" name="hotelCurrent" th:value="${hotelCurrent.id}">
                    <textarea id="content" th:field="${comment.content}">
                    </textarea>
                     </td>

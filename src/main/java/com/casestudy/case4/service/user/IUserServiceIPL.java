@@ -70,4 +70,9 @@ public class IUserServiceIPL implements IUserService {
     public void enable(Long id) {
         iUserRepository.enable(id);
     }
+
+    @Override
+    public User findAllById(Long id) {
+        return iUserRepository.findAllById(id);
+    }
 }

@@ -20,6 +20,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
     User findByUserNameAndStatusIsFalse(String userName);
     Page<User> findAllByStatusIsFalse(Pageable pageable);
     Page<User> findAllByStatusIsTrue(Pageable pageable);
+    User findAllById(Long id);
     @Transactional
     @Modifying
     @Query(value = "UPDATE user h set status =1 where h.id = :id", nativeQuery = true)

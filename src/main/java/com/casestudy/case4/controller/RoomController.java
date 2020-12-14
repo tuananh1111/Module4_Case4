@@ -86,7 +86,7 @@ public class RoomController {
         Hotel hotel= iHotelService.findAllById(id);
         ModelAndView modelAndView= new ModelAndView("room/detailsRoomHotel");
         modelAndView.addObject("rooms",rooms);
-        modelAndView.addObject("comment",new Comment());
+        modelAndView.addObject("comment",new CommentForm());
         modelAndView.addObject("id_details", id);
         modelAndView.addObject("hotelCurrent",hotel);
         return modelAndView;
